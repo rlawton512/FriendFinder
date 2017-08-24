@@ -223,8 +223,9 @@ $(document).ready(function(){
 				]
 			}
 			// console.log(newFriendData)
+			var currURL = window.location.origin;
 
-			$.post("/api/friends", newFriendData, function(data){
+			$.post(`${currURL}/api/friends`, newFriendData).done(function(data){
 				if (data){
 					$("#newFriendName").text(data.name);
 					$("#newFriendPic").attr("src", data.photo);
