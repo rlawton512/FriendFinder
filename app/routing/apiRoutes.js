@@ -1,23 +1,17 @@
-// var express = require("express");
-// var bodyParser = require("body-parser");
-// var path = require("path");
+// set variable to require friends.js
 var friendList = require("./friends")
 
-// var app = express ();
-// var PORT = 3030;
 
-// // Sets up the Express app to handle data parsing
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({extended: true}));
-// app.use(bodyParser.text());
-// app.use(bodyParser.json({type: "application/vnd.api+json"}));
-
+//set up module export to be used in server.js
 module.exports = function(app){
+   
+    //Code to display data when the api link is clicked on the html page 
     app.get("/api/friends", function(req, res){
 
         res.json(friendList);
     });
 
+    //Code to store data to the friends list when new survey information is entered 
     app.post("/api/friends", function(req, res){
         var newFriend = (req.body);
         var newScores = newFriend.scores
@@ -28,7 +22,3 @@ module.exports = function(app){
 
     })
 }
-
-// app.listen(PORT, function(){
-//     console.log("App is listening on PORT:" + PORT);
-// })

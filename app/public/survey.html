@@ -202,10 +202,14 @@
 </div>
 
 <script type ="text/javascript">
+
 $(document).ready(function(){
+
+	//create click function for the survey in order to process the data
 		$("#surveySubmit").on("click", function(event){
 			event.preventDefault();
 
+			//Grab information from the form elements 
 			var newFriendData = {
 				name: $("#name-input").val().trim(),
 				photo: $("#photo-link").val().trim(),

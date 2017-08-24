@@ -1,3 +1,4 @@
+//holds the data for list of friends
 var friendList = 
 [
     {
@@ -8,4 +9,5 @@ var friendList =
 
 ]
 
+//export the array and make it accessible to other files using require. 
 module.exports = friendList
