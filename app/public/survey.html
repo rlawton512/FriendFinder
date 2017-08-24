@@ -206,6 +206,10 @@
 $(document).ready(function(){
 
 	//create click function for the survey in order to process the data
+var dif = 100;
+var leastDifference = 100;
+var bestMatch = {};
+	
 		$("#surveySubmit").on("click", function(event){
 			event.preventDefault();
 
@@ -226,18 +230,42 @@ $(document).ready(function(){
 					$("#q10").val(),
 				]
 			}
-			// console.log(newFriendData)
+		
+			// post newFriendData to friend.js 
+			$.post("/api/friends", newFriendData, function(){
+			
+			})
+
+
 			var currURL = window.location.origin;
+			//get best match from list of friends 
+			$.get(currURL + "/api/friends", newFriendData, function(data){
+				for(var j=0; j<data.length; j++){
+					console.log(data)
+						dif = 100; 
 
-			$.post(`${currURL}/api/friends`, newFriendData).done(function(data){
-				if (data){
-					$("#newFriendName").text(data.name);
-					$("#newFriendPic").attr("src", data.photo);
-					$("#myModal").modal();
-					// alert("New Friend Added!")
+						//determine the least difference amount of difference in the answers
+						for(var i=0; i<=9; i++){
+							var num = i + 1; 
+							var num2 = "'"+num+"'";
+							dif -= (Math.abs(parseInt(newFriendData.scores[i]) - parseInt(data[j].scores + (i+1))));
+							// console.log(('response[j].scores' + num));
 
-				} else {
-					console.log("There has been an error!")
+							if (dif < leastDifference){
+									leastDifference = dif;
+
+										bestMatch = {
+											name: data[j].name,
+											photo: data[j].photo
+										}
+										console.log(bestMatch);
+							}
+
+						$("#newFriendName").text(bestMatch.name);
+						$("#newFriendPic").attr("src", bestMatch.photo);
+						$("#myModal").modal();	
+
+						}			
 				}
 
 				//clear survey data after submission
