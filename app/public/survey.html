@@ -85,7 +85,7 @@
 				</select>	
 		</div>
 
-		<div id = "question5">
+		 <div id = "question5">
 			<h3>Question 5</h3>
 			<h4>You feel more energized after spending time alone.</h4>	
 				<select id="q5">
@@ -165,7 +165,7 @@
 					<option value = "4">4</option>
 					<option value = "5">5(Strongly Disagree)</option>
 				</select>	
-		</div>		
+		</div>		 
 			<br>
 			<br>
 		  <button type="submit" class="btn btn-primary btn-lg btn-block" id = "surveySubmit"><span class = "glyphicon glyphicon-ok-circle"></span>  Submit</button>
@@ -206,7 +206,7 @@
 $(document).ready(function(){
 
 	//create click function for the survey in order to process the data
-var dif = 100;
+var diff = 100; 
 var leastDifference = 100;
 var bestMatch = {};
 	
@@ -231,41 +231,34 @@ var bestMatch = {};
 				]
 			}
 		
-			// post newFriendData to friend.js 
+// post newFriendData to friend.js 
 			$.post("/api/friends", newFriendData, function(){
 			
 			})
-
-
 			var currURL = window.location.origin;
 			//get best match from list of friends 
 			$.get(currURL + "/api/friends", newFriendData, function(data){
 				for(var j=0; j<data.length; j++){
 					console.log(data)
 						dif = 100; 
-
 						//determine the least difference amount of difference in the answers
 						for(var i=0; i<=9; i++){
-							var num = i + 1; 
-							var num2 = "'"+num+"'";
-							dif -= (Math.abs(parseInt(newFriendData.scores[i]) - parseInt(data[j].scores + (i+1))));
+							// var num = i + 1; 
+							// var num2 = "'"+num+"'";
+							dif -= (Math.abs(parseInt(newFriendData.scores[i]) - parseInt(data[j].scores)));
 							// console.log(('response[j].scores' + num));
-
 							if (dif < leastDifference){
 									leastDifference = dif;
-
 										bestMatch = {
 											name: data[j].name,
 											photo: data[j].photo
 										}
 										console.log(bestMatch);
 							}
-
 						$("#newFriendName").text(bestMatch.name);
 						$("#newFriendPic").attr("src", bestMatch.photo);
 						$("#myModal").modal();	
-
-						}			
+						}	
 				}
 
 				//clear survey data after submission
